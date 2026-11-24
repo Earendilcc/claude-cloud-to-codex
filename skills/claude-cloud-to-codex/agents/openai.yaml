@@ -1,0 +1,4 @@
+interface:
+  display_name: "Claude 云项目迁移到 Codex"
+  short_description: "从只读的 Claude 云项目恢复文件、记忆和聊天，并核对开发版本"
+  default_prompt: "请用 $claude-cloud-to-codex 把我仍能查看的 Claude 云项目迁入当前 Codex 项目，并核对可恢复的内容。"

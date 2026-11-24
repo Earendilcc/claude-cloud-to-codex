@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+.claude/
+.codex/
+private/
+*.jsonl
+*.sqlite*
+*.png
+*.zip
