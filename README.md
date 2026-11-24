@@ -1,8 +1,33 @@
 # Claude Cloud to Codex
 
-一个 Codex skill，配有 Windows 客户端采集工具和本地导入、校验脚本。当 Claude 已经不能继续对话时，只要你还能在已登录的桌面端打开云项目、翻看历史、查看记忆，或逐个下载文件，就可以尝试把这些内容迁入自己的 Codex 项目，接着工作。
+**用 Claude Projects 开发或做其他任务时，文件、对话和项目记忆可能只在云端。**账号被封或无法重新登录后，设置里的「导出数据」也可能拿不全。只要原先登录的桌面端还能打开项目，这套 Codex skill 和 Windows 工具就能帮你抢救可读内容，还原目录、逐个迁移对话并恢复记忆。
 
-Recover a readable Claude cloud project into an existing Codex project. The skill covers desktop capture, file recovery, native chat and memory import, and checking which development work can be resumed.
+这套工具来自一次实际迁移：旧项目仍能在 Claude 桌面端打开，历史讨论也翻得到，但已经不能发新消息。云端文件菜单只能逐个下载，复制出来的 `/mnt/project-files/…` 也是云端路径。我们先盘点已有导出，再从仍能查看的项目里补回缺项。
+
+要跟着做，先在原来登录的 Windows 桌面端试三件事：打开一个旧讨论、查看一条记忆、下载一个小文件。哪一类还能读，就能从那一类开始。若旧会话也已失效，手头留存的导出和手动下载仍可用于离线恢复。
+
+[安装与开始](#安装与开始) · [用户与 Codex 的分工](#使用者与-codex-如何配合) · [English quick start](#english-quick-start)
+
+## 迁移后会得到什么
+
+```mermaid
+flowchart LR
+    source["仍可查看的 Claude 项目"]
+    source --> files["云端文件"]
+    source --> chats["历史讨论"]
+    source --> memory["项目记忆"]
+    files --> tree["本机项目中的原始目录"]
+    chats --> threads["Codex 项目中的原生聊天"]
+    memory --> notes["对应 Codex 项目的原生记忆"]
+```
+
+| 假设旧项目里有… | 打开迁好的 Codex 项目时，你会看到… |
+| --- | --- |
+| `src/config.json` 和 `tests/config.json` 两个同名文件 | 两个文件各在原来的目录。下载中途取消后，可以核对已有文件再续传。 |
+| 一个主讨论和两个分支讨论 | 三个可分别打开的原生聊天。逐串核对发言人、顺序、首尾和记录数。 |
+| 一条旧决定，以及两天后修改它的记录 | 两条记录连同先后关系进入同一项目的记忆。导入完成后回读，核对正文和项目归属。 |
+
+能复制的正文优先按原文取回。遇到只能查看的记忆页，可以截取指定窗口区域，再按原页核对转录。附件原件需要从下载入口取回；链接已经失效时，只能记录它曾出现在哪段对话。
 
 ## 安装与开始
 
@@ -58,6 +83,18 @@ pwsh -NoProfile -File scripts/claude-download.ps1 -Mode Inspect
 本仓库用虚构项目跑过聊天和记忆的原生回读、重复导入、跨项目同名、文件恢复冲突及断点续传。Windows 端另用测试窗口核对了截图像素，并用系统“另存为”对话框实际保存和回读了测试文件。公开版未在他人的 Claude 账号上运行。不同客户端的菜单、语言或可访问性标识可能变化，先用本人的一个小文件和一张截图确认，再扩大范围。
 
 **能迁回的范围取决于源端还保留什么。** 可复制的发言能按原文核对；只能预览的图片可保留来源引用；已失效的附件链接无法还原原始字节。截图不能证明已经下载了附件。本仓库用于分享方法和工具，迁移过程中得到的私有资料应保存在使用者自己的环境中。
+
+## English quick start
+
+Locked out of Claude? If your desktop still opens the project, recover cloud files, chats and memory the data export missed. Restore the file tree and import each conversation as a native Codex chat.
+
+Start with a small check in the Windows desktop session that was already signed in. Open an old conversation, view a memory entry, and try downloading one file. If the session has expired, start with any exports and downloads you already have.
+
+In Codex, install the skill with the prompt below. Then open the destination project in a new chat, invoke `$claude-cloud-to-codex`, and identify the source project. Codex can inventory missing items, rehearse the import in isolation, and read back the results before temporary captures are removed.
+
+```text
+Use $skill-installer to install skills/claude-cloud-to-codex from Earendilcc/claude-cloud-to-codex on GitHub.
+```
 
 ## 许可
 
